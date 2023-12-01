@@ -34,8 +34,9 @@ const createSendToken = (user, statusCode, res) => {
     httpOnly: true,
   };
 
-  res.cookie("jwt", token, { httpOnly: true });
+  res.cookie("jwt", token, { httpOnly: true,sameSite: "None"});
   res.cookie("refreshToken", refreshToken, refreshTokenCookieOptions);
+  console.log("token :",token)
 
   // remove password from output
   user.password = undefined;
@@ -289,6 +290,21 @@ const getAllSuppliers = async (req, res) => {
   }
 };
 
+const getUserById = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    
+    const user = await User.findById(id);
+
+    res
+      .status(200)
+      .json({ status: "success",user});
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
 const deleteUser = async (req, res) => {
   try {
     const { id } = req.params;
@@ -532,6 +548,7 @@ module.exports = {
   loginUser,
   getAllUsers,
   getAllSuppliers,
+  getUserById,
   updateUser,
   updatePassword,
   deleteUser,

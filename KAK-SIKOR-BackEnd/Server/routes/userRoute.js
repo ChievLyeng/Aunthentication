@@ -8,6 +8,7 @@ const {
 const {
   getAllUsers,
   getAllSuppliers,
+  getUserById,
   deleteUser,
   updateUser,
   updatePassword,
@@ -23,6 +24,7 @@ router.post("/register", registerUser);
 router.post("/login", loginUser);
 router.get("/users", getAllUsers);
 router.get("/suppliers", getAllSuppliers);
+router.get("/:id", getUserById);
 router.post("/update/:id", requireSignIn, updateUser);
 router.post("/update-password/:id", requireSignIn, updatePassword);
 router.delete("/delete/:id", requireSignIn, deleteUser);
