@@ -20,19 +20,23 @@ dotenv.config({ path: "./config.env" });
 // express app
 const app = express();
 
+// for sending cookie to frontend
+const corsConfig = {
+  origin: process.env.CLIENT_URL,
+  methods: "GET, POST, PUT, PATCH, DELETE, HEAD",
+  credentials: true,
+};
+
 // middleware
 app.use(morgan("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cors({
-  origin : 'http://localhost:5173',
-  credentials: true
-}))
+app.use(cors(corsConfig));
 app.use(cookieParser())
 
 // routes
 app.use("/reviews", ReviewRoute);
-app.use("/users", userRoute);
+app.use("/api/v1/users", userRoute);
 app.use("/products", productRoute);
 app.use("/category", categoryRoute);
 app.use("/api", cartRoutes);
